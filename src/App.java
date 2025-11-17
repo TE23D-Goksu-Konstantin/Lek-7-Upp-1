@@ -15,14 +15,17 @@ public class App
             
             String theDecisionString = tB.nextLine();
             int theDecisionInt = Integer.parseInt(theDecisionString);
+            boolean bil;
             
             if(theDecisionInt == 1)
             {
-                attribut(tB);
+                bil = true;
+                attribut(tB, bil);
             }
             else if(theDecisionInt == 2)
             {
-                
+                bil = false;
+                attribut(tB, bil);
             }
             else if(theDecisionInt == 3)
             {
@@ -35,7 +38,7 @@ public class App
         }
     }
 
-    public static void attribut(Scanner tB)
+    public static void attribut(Scanner tB, boolean bil)
     {
         System.out.println("Ägarens namn?");
         String ägare = tB.nextLine(); 
@@ -46,6 +49,7 @@ public class App
         System.out.println("Vad väger den? (kilogram)");
         double vikt;
 
+        
         while(true)
         {
             try 
@@ -57,9 +61,29 @@ public class App
             {
                 System.out.println("Fel");
             }
-        
+            
         }
 
+        double lastKapacitet = 0; 
+        if(bil == false)
+        {
+            System.out.println("Hur mycket kan den bära? (kilogram)");
+            
+            while(true)
+                {
+                    try 
+                {
+                    lastKapacitet = Double.parseDouble(tB.nextLine());
+                    break;
+                } 
+                catch (IllegalArgumentException e) 
+                {
+                    System.out.println("Fel");
+                }
+                
+            }
+        }
+        
         System.out.println("Vad är registreringsnumret?");
         String reg_nr;
         while(true)
@@ -90,8 +114,17 @@ public class App
             }
         
         }
-        Bil nyBil = new Bil(reg_nr, färg, ägare, vikt, sittplatser);
-        fordon.add(nyBil);
+        if(bil == true)
+        {
+
+            Bil nyBil = new Bil(reg_nr, färg, ägare, vikt, sittplatser);
+            fordon.add(nyBil);
+        }
+        else
+        {
+            Lastbil nyLastbil = new Lastbil(reg_nr, färg, ägare, vikt, lastKapacitet, sittplatser);
+            fordon.add(nyLastbil);
+        }
 
     }
 
